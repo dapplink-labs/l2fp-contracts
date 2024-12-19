@@ -1,12 +1,10 @@
-## Finality Provider Contracts for evm layer2
-
 <!--
 parent:
   order: false
 -->
 
 <div align="center">
-  <h1> l2-fp-contracts </h1>
+  <h1> (l2-fp-contracts)Finality Provider Contracts for evm layer2</h1>
 </div>
 
 <div align="center">
