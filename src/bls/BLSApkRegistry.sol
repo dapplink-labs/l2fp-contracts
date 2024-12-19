@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin-upgrades/contracts/access/OwnableUpgradeable.sol";
+import "@openzeppelin-upgrades/contracts/proxy/utils/Initializable.sol";
+
+import "../libraries/BN254.sol";
+
 import "../interfaces/IBLSApkRegistry.sol";
 
-import {BLSApkRegistryStorage} from "./BLSApkRegistryStorage.sol";
-import {BN254} from "../libraries/BN254.sol";
-import {OwnableUpgradeable} from "@openzeppelin-upgrades/contracts/access/OwnableUpgradeable.sol";
-import {Initializable} from "@openzeppelin-upgrades/contracts/proxy/utils/Initializable.sol";
+import "./BLSApkRegistryStorage.sol";
+
 
 
 contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage {

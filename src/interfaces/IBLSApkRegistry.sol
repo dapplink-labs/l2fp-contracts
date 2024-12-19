@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {BN254} from "../libraries/BN254.sol";
+import "../libraries/BN254.sol";
 
 interface IBLSApkRegistry {
     struct FinalityNonSingerAndSignature {
