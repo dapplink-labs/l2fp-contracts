@@ -4,7 +4,7 @@ parent:
 -->
 
 <div align="center">
-  <h1> (l2-fp-contracts)Finality Provider Contracts for evm layer2</h1>
+  <h1> l2-fp-contracts</h1>
 </div>
 
 <div align="center">
@@ -19,9 +19,11 @@ parent:
   </a>
 </div>
 
+## 1.Finality Provider Contracts for evm layer2
+
 l2-fp-contracts is a finality bls signature verify and submit stateroot to layer2's contracts in Ethereum(layer1), 
 
-## Usage
+## 2.Usage
 
 ### Build
 
