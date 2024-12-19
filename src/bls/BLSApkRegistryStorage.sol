@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.12;
+pragma solidity ^0.8.20;
 
 import {IBLSApkRegistry} from "../interfaces/IBLSApkRegistry.sol";
 import {Initializable} from "@openzeppelin-upgrades/contracts/proxy/utils/Initializable.sol";

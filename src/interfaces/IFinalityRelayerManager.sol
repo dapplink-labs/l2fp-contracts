@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "../libraries/BN254.sol";
 import "./IBLSApkRegistry.sol";
@@ -21,6 +21,7 @@ interface IFinalityRelayerManager {
         bytes32 l1BlockHash;
         uint256 l1BlockNumber;
         bytes32 msgHash;
+        uint32  disputeGameType;
     }
 
     struct PubkeyRegistrationParams {
@@ -35,7 +36,8 @@ interface IFinalityRelayerManager {
 
     function VerifyFinalitySignature(
         FinalityBatch calldata finalityBatch,
-        IBLSApkRegistry.FinalityNonSingerAndSignature memory finalityNonSingerAndSignature
+        IBLSApkRegistry.FinalityNonSingerAndSignature memory finalityNonSingerAndSignature,
+        uint256 minGas
     ) external;
 
     function addOrRemoverOperatorWhitelist(address operator, bool isAdd) external;
