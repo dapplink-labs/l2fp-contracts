@@ -12,7 +12,7 @@ abstract contract BLSApkRegistryStorage is Initializable, IBLSApkRegistry {
     bytes32 public constant PUBKEY_REGISTRATION_TYPEHASH = keccak256("BN254PubkeyRegistration(address operator)");
 
     /// @notice the registry finality relayer manager contract
-    address public immutable finalityRelayerManager;
+    IFinalityRelayerManager public immutable finalityRelayerManager;
 
     /// @notice the registry relayer manager address
     address public immutable relayerManager;
@@ -22,14 +22,13 @@ abstract contract BLSApkRegistryStorage is Initializable, IBLSApkRegistry {
     mapping(bytes32 => address) public pubkeyHashToOperator;
     mapping(address => BN254.G1Point) public operatorToPubkey;
 
-    BN254.G1Point  public currentApk;
+    BN254.G1Point public currentApk;
     ApkUpdate[] public apkHistory;
 
-    constructor(IFinalityRelayerManager _finalityRelayerManager, address _relayerManager) {
-        finalityRelayerManager = address(_finalityRelayerManager);
+    constructor(address _finalityRelayerManager, address _relayerManager) {
+        finalityRelayerManager = IFinalityRelayerManager(_finalityRelayerManager);
         relayerManager = _relayerManager;
         _disableInitializers();
     }
 
-    uint256[100] private __GAP;
 }

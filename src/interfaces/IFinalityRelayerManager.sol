@@ -4,15 +4,23 @@ pragma solidity ^0.8.0;
 import "../libraries/BN254.sol";
 import "./IBLSApkRegistry.sol";
 
-contract IFinalityRelayerManager {
+interface IFinalityRelayerManager {
+
+    event OperatorRegistered(address indexed operator, string nodeUrl);
+    event OperatorDeRegistered(address operator);
+
+    event VerifyFinalitySig(
+        uint256 totalBtcStaking,
+        uint256 totalMantaStaking,
+        bytes32 signatoryRecordHash
+    );
+
     struct FinalityBatch {
         bytes32 stateRoot;
         uint256 l2BlockNumber;
         bytes32 l1BlockHash;
         uint256 l1BlockNumber;
-        bytes quorumNumbers;
-        bytes signedStakeForQuorums;
-        uint32 referenceBlockNumber;
+        bytes32 msgHash;
     }
 
     struct PubkeyRegistrationParams {
@@ -21,14 +29,14 @@ contract IFinalityRelayerManager {
         BN254.G2Point pubkeyG2;
     }
 
-
-    function registerOperator( PubkeyRegistrationParams calldata params, BN254.G1Point calldata pubkeyRegistrationMessageHash, string calldata nodeUrl) external;
+    function registerOperator(string calldata nodeUrl) external;
 
     function deRegisterOperator() external;
 
     function VerifyFinalitySignature(
         FinalityBatch calldata finalityBatch,
-        FinalityNonSingerAndSignature memory finalityNonSingerAndSignature
+        IBLSApkRegistry.FinalityNonSingerAndSignature memory finalityNonSingerAndSignature
     ) external;
 
+    function addOrRemoverOperatorWhitelist(address operator, bool isAdd) external;
 }
