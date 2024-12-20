@@ -20,20 +20,22 @@ contract FinalityRelayerManager is OwnableUpgradeable, FinalityRelayerManagerSto
         _;
     }
 
-    constructor(
-        address _blsApkRegistry,
-        address _l2OutputOracle,
-        address _disputeGameFactory
-    ) FinalityRelayerManagerStorage(IBLSApkRegistry(_blsApkRegistry), _l2OutputOracle, _disputeGameFactory) {
+    constructor() {
         _disableInitializers();
     }
 
     function initialize(
-        address initialOwner,
-        bool _isDisputeGameFactory
+        address _initialOwner,
+        bool _isDisputeGameFactory,
+        address _blsApkRegistry,
+        address _l2OutputOracle,
+        address _disputeGameFactory
     ) external initializer {
+        _transferOwnership(_initialOwner);
+        blsApkRegistry = IBLSApkRegistry(_blsApkRegistry);
+        l2OutputOracle = _l2OutputOracle;
+        disputeGameFactory = _disputeGameFactory;
         isDisputeGameFactory = _isDisputeGameFactory;
-        _transferOwnership(initialOwner);
     }
 
     function registerOperator(string calldata nodeUrl) external {

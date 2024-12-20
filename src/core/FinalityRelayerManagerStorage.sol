@@ -18,11 +18,4 @@ abstract contract FinalityRelayerManagerStorage is Initializable {
 
     bool public isDisputeGameFactory;
 
-    constructor(IBLSApkRegistry _blsApkRegistry, address _l2OutputOracle, address _disputeGameFactory) {
-        blsApkRegistry = _blsApkRegistry;
-        l2OutputOracle = _l2OutputOracle;
-        disputeGameFactory = _disputeGameFactory;
-        _disableInitializers();
-    }
-
 }

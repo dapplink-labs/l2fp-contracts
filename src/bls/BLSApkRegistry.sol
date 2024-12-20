@@ -33,17 +33,18 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         _;
     }
 
-    constructor(
-        address _finalityRelayerManager,
-        address _relayerManager
-    ) BLSApkRegistryStorage(_finalityRelayerManager, _relayerManager) {
+    constructor() {
         _disableInitializers();
     }
 
     function initialize(
-        address initialOwner
+        address _initialOwner,
+        address _finalityRelayerManager,
+        address _relayerManager
     ) external initializer {
-        _transferOwnership(initialOwner);
+        _transferOwnership(_initialOwner);
+        finalityRelayerManager = IFinalityRelayerManager(_finalityRelayerManager);
+        relayerManager = _relayerManager;
     }
 
     function registerOperator(
@@ -143,6 +144,13 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         return (stakeTotals, signatoryRecordHash);
     }
 
+    function addOrRemoverBlsRegisterWhitelist(address register, bool isAdd) external onlyRelayerManager {
+        require(
+            register != address(0),
+            "BLSApkRegistry.addOrRemoverBlsRegisterWhitelist: operator address is zero"
+        );
+        blsRegisterWhitelist[register] = isAdd;
+    }
 
     function trySignatureAndApkVerification(
         bytes32 msgHash,
