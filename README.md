@@ -19,9 +19,9 @@ parent:
   </a>
 </div>
 
-## 1.Finality Provider Contracts for evm layer2
+## 1.Finality Provider Contracts for layer2
 
-l2fp-contracts is a finality bls signature verify and submit stateroot to layer2's contracts in Ethereum(layer1), 
+l2fp-contracts is a collection of contracts for managing nodes and verifying BLS signatures in an L2 fast finality network. It receives aggregated signature verifications from Finality Providers in the Babylon and Symbiotic networks to ensure the finality of the network.
 
 ## 2.Usage
 
