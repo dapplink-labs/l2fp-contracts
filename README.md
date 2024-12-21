@@ -4,7 +4,7 @@ parent:
 -->
 
 <div align="center">
-  <h1> l2-fp-contracts</h1>
+  <h1> l2fp-contracts</h1>
 </div>
 
 <div align="center">
