@@ -29,13 +29,15 @@ contract FinalityRelayerManager is OwnableUpgradeable, FinalityRelayerManagerSto
         bool _isDisputeGameFactory,
         address _blsApkRegistry,
         address _l2OutputOracle,
-        address _disputeGameFactory
+        address _disputeGameFactory,
+        address _operatorWhitelistManager
     ) external initializer {
         _transferOwnership(_initialOwner);
         blsApkRegistry = IBLSApkRegistry(_blsApkRegistry);
         l2OutputOracle = _l2OutputOracle;
         disputeGameFactory = _disputeGameFactory;
         isDisputeGameFactory = _isDisputeGameFactory;
+        operatorWhitelistManager = _operatorWhitelistManager;
     }
 
     function registerOperator(string calldata nodeUrl) external {

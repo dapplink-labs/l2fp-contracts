@@ -37,7 +37,7 @@ contract deployFinalityRelayerScript is Script {
         TransparentUpgradeableProxy proxyFinalityRelayerManager = new TransparentUpgradeableProxy(
             address(finalityRelayerManager),
             address(fpAdmin),
-            abi.encodeWithSelector(FinalityRelayerManager.initialize.selector, deployerAddress, false, blsApkRegistry, l2OutputOracleAddr, disputeGameFactoryAddr)
+            abi.encodeWithSelector(FinalityRelayerManager.initialize.selector, deployerAddress, false, blsApkRegistry, l2OutputOracleAddr, disputeGameFactoryAddr, fpAdmin)
         );
 
         console.log("deploy proxyBlsApkRegistry:", address(proxyBlsApkRegistry));
