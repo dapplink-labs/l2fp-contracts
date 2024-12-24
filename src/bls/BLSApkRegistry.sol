@@ -10,6 +10,8 @@ import "../interfaces/IBLSApkRegistry.sol";
 
 import "./BLSApkRegistryStorage.sol";
 
+import { console } from "forge-std/Script.sol";
+
 
 
 contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage {
@@ -18,8 +20,12 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
     uint256 internal constant PAIRING_EQUALITY_CHECK_GAS = 120000;
 
     modifier onlyFinalityRelayerManager() {
+        console.log("==============================");
+        console.log("sender===", msg.sender);
+        console.log("finalityRelayerManager==", finalityRelayerManager);
+        console.log("==============================");
         require(
-            msg.sender == address(finalityRelayerManager),
+            msg.sender == finalityRelayerManager,
             "BLSApkRegistry.onlyFinalityRelayerManager: caller is not finality relayer manager contracts "
         );
         _;
@@ -27,7 +33,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
 
     modifier onlyRelayerManager() {
         require(
-            msg.sender == address(relayerManager),
+            msg.sender == relayerManager,
             "BLSApkRegistry.onlyRelayerManager: caller is not the relayer manager address"
         );
         _;
@@ -43,13 +49,13 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         address _relayerManager
     ) external initializer {
         _transferOwnership(_initialOwner);
-        finalityRelayerManager = IFinalityRelayerManager(_finalityRelayerManager);
+        finalityRelayerManager = _finalityRelayerManager;
         relayerManager = _relayerManager;
     }
 
     function registerOperator(
         address operator
-    ) public virtual onlyFinalityRelayerManager {
+    ) public onlyFinalityRelayerManager {
         (BN254.G1Point memory pubkey, ) = getRegisteredPubkey(operator);
 
         _processApkUpdate(pubkey);
@@ -59,7 +65,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
 
     function deregisterOperator(
         address operator
-    ) public virtual onlyFinalityRelayerManager {
+    ) public onlyFinalityRelayerManager {
         (BN254.G1Point memory pubkey, ) = getRegisteredPubkey(operator);
 
         _processApkUpdate(pubkey.negate());
@@ -117,7 +123,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
     function checkSignatures(
         bytes32 msgHash,
         uint256 referenceBlockNumber,
-        FinalityNonSingerAndSignature memory params
+        FinalityNonSignerAndSignature memory params
     ) public view returns (StakeTotals memory, bytes32) {
         require(referenceBlockNumber < uint32(block.number), "BLSSignatureChecker.checkSignatures: invalid reference block");
 

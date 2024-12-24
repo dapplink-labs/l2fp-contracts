@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "../libraries/BN254.sol";
 
 interface IBLSApkRegistry {
-    struct FinalityNonSingerAndSignature {
+    struct FinalityNonSignerAndSignature {
         BN254.G1Point[] nonSignerPubkeys;
         BN254.G2Point apkG2;
         BN254.G1Point sigma;
@@ -58,7 +58,7 @@ interface IBLSApkRegistry {
     function checkSignatures(
         bytes32 msgHash,
         uint256 referenceBlockNumber,
-        FinalityNonSingerAndSignature memory params
+        FinalityNonSignerAndSignature memory params
     ) external view returns (StakeTotals memory, bytes32);
 
 

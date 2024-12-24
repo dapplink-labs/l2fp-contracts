@@ -14,7 +14,7 @@ abstract contract BLSApkRegistryStorage is Initializable, IBLSApkRegistry {
     bytes32 public constant PUBKEY_REGISTRATION_TYPEHASH = keccak256("BN254PubkeyRegistration(address operator)");
 
     /// @notice the registry finality relayer manager contract
-    IFinalityRelayerManager public finalityRelayerManager;
+    address public finalityRelayerManager;
 
     /// @notice the registry relayer manager address
     address public relayerManager;

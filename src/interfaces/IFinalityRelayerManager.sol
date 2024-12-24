@@ -36,9 +36,9 @@ interface IFinalityRelayerManager {
 
     function VerifyFinalitySignature(
         FinalityBatch calldata finalityBatch,
-        IBLSApkRegistry.FinalityNonSingerAndSignature memory finalityNonSingerAndSignature,
+        IBLSApkRegistry.FinalityNonSignerAndSignature memory finalityNonSignerAndSignature,
         uint256 minGas
     ) external;
 
-    function addOrRemoverOperatorWhitelist(address operator, bool isAdd) external;
+    function addOrRemoveOperatorWhitelist(address operator, bool isAdd) external;
 }

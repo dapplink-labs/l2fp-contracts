@@ -60,13 +60,13 @@ contract FinalityRelayerManager is OwnableUpgradeable, FinalityRelayerManagerSto
 
     function VerifyFinalitySignature(
         FinalityBatch calldata finalityBatch,
-        IBLSApkRegistry.FinalityNonSingerAndSignature memory finalityNonSingerAndSignature,
+        IBLSApkRegistry.FinalityNonSignerAndSignature memory finalityNonSignerAndSignature,
         uint256 minGas
     ) external {
         (
             IBLSApkRegistry.StakeTotals memory stakeTotals,
             bytes32 signatoryRecordHash
-        ) = blsApkRegistry.checkSignatures(finalityBatch.msgHash, finalityBatch.l2BlockNumber, finalityNonSingerAndSignature);
+        ) = blsApkRegistry.checkSignatures(finalityBatch.msgHash, finalityBatch.l2BlockNumber, finalityNonSignerAndSignature);
 
         // call l2output oracle contacts
         if (!isDisputeGameFactory) {
@@ -89,7 +89,7 @@ contract FinalityRelayerManager is OwnableUpgradeable, FinalityRelayerManagerSto
         emit VerifyFinalitySig(stakeTotals.totalBtcStaking, stakeTotals.totalMantaStaking, signatoryRecordHash);
     }
 
-    function addOrRemoverOperatorWhitelist(address operator, bool isAdd) external onlyOperatorWhitelistManager {
+    function addOrRemoveOperatorWhitelist(address operator, bool isAdd) external onlyOperatorWhitelistManager {
         require(
             operator != address (0),
             "FinalityRelayerManager.addOperatorWhitelist: operator address is zero"
