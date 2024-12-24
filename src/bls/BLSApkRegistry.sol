@@ -154,7 +154,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         return (stakeTotals, signatoryRecordHash);
     }
 
-    function addOrRemoverBlsRegisterWhitelist(address register, bool isAdd) external onlyRelayerManager {
+    function addOrRemoveBlsRegisterWhitelist(address register, bool isAdd) external onlyRelayerManager {
         require(
             register != address(0),
             "BLSApkRegistry.addOrRemoverBlsRegisterWhitelist: operator address is zero"
