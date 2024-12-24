@@ -76,7 +76,11 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         address operator,
         PubkeyRegistrationParams calldata params,
         BN254.G1Point calldata pubkeyRegistrationMessageHash
-    ) external onlyRelayerManager returns (bytes32) {
+    ) external returns (bytes32) {
+        require(
+            blsRegisterWhitelist[msg.sender],
+            "BLSApkRegistry.registerBLSPublicKey: this address have not permission to register bls key"
+        );
         bytes32 pubkeyHash = BN254.hashG1Point(params.pubkeyG1);
         require(
             pubkeyHash != ZERO_PK_HASH,
