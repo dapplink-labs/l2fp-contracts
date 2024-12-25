@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin-upgrades/contracts/access/OwnableUpgradeable.sol";
 import "@openzeppelin-upgrades/contracts/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 
 import "../libraries/BN254.sol";
 
@@ -14,16 +15,12 @@ import { console } from "forge-std/Script.sol";
 
 
 
-contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage {
+contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage, EIP712{
     using BN254 for BN254.G1Point;
 
     uint256 internal constant PAIRING_EQUALITY_CHECK_GAS = 120000;
 
     modifier onlyFinalityRelayerManager() {
-        console.log("==============================");
-        console.log("sender===", msg.sender);
-        console.log("finalityRelayerManager==", finalityRelayerManager);
-        console.log("==============================");
         require(
             msg.sender == finalityRelayerManager,
             "BLSApkRegistry.onlyFinalityRelayerManager: caller is not finality relayer manager contracts "
@@ -39,7 +36,9 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         _;
     }
 
-    constructor() {
+    constructor()
+        EIP712("BLSApkRegistry", "v0.0.1")
+    {
         _disableInitializers();
     }
 
@@ -81,7 +80,9 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
             blsRegisterWhitelist[msg.sender],
             "BLSApkRegistry.registerBLSPublicKey: this address have not permission to register bls key"
         );
+
         bytes32 pubkeyHash = BN254.hashG1Point(params.pubkeyG1);
+
         require(
             pubkeyHash != ZERO_PK_HASH,
             "BLSApkRegistry.registerBLSPublicKey: cannot register zero pubkey"
@@ -113,7 +114,6 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
             pubkeyRegistrationMessageHash.plus(BN254.generatorG1().scalar_mul(gamma)),
             params.pubkeyG2
         ), "BLSApkRegistry.registerBLSPublicKey: either the G1 signature is wrong, or G1 and G2 private key do not match");
-
 
         operatorToPubkey[operator] = params.pubkeyG1;
         operatorToPubkeyHash[operator] = pubkeyHash;
@@ -213,4 +213,13 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
 
         return (pubkey, pubkeyHash);
     }
+
+    function pubkeyRegistrationMessageHash(address operator) public view returns (BN254.G1Point memory) {
+        return BN254.hashToG1(
+            _hashTypedDataV4(
+                keccak256(abi.encode(PUBKEY_REGISTRATION_TYPEHASH, operator))
+            )
+        );
+    }
+
 }
