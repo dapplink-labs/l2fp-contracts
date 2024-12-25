@@ -67,4 +67,5 @@ interface IBLSApkRegistry {
     function addOrRemoveBlsRegisterWhitelist(address operator, bool isAdd) external;
 
     function pubkeyRegistrationMessageHash(address operator) external view returns (BN254.G1Point memory);
+
 }

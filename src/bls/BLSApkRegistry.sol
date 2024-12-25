@@ -50,6 +50,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         _transferOwnership(_initialOwner);
         finalityRelayerManager = _finalityRelayerManager;
         relayerManager = _relayerManager;
+        _initializeApk();
     }
 
     function registerOperator(
@@ -220,6 +221,16 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
                 keccak256(abi.encode(PUBKEY_REGISTRATION_TYPEHASH, operator))
             )
         );
+    }
+
+    function _initializeApk() internal {
+        require(apkHistory.length == 0, "BLSApkRegistry.initializeApk: apk already exists");
+
+        apkHistory.push(ApkUpdate({
+            apkHash: bytes24(0),
+            updateBlockNumber: uint32(block.number),
+            nextUpdateBlockNumber: 0
+        }));
     }
 
 }
