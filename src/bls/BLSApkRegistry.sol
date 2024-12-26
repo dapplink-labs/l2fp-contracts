@@ -130,16 +130,16 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         FinalityNonSignerAndSignature memory params
     ) public view returns (StakeTotals memory, bytes32) {
         require(referenceBlockNumber < uint32(block.number), "BLSSignatureChecker.checkSignatures: invalid reference block");
-
         BN254.G1Point memory signerApk = BN254.G1Point(0, 0);
-
         bytes32[] memory nonSignersPubkeyHashes;
-
-        for (uint256 j = 0; j < params.nonSignerPubkeys.length; j++) {
-            nonSignersPubkeyHashes[j] = params.nonSignerPubkeys[j].hashG1Point();
-            signerApk = currentApk.plus(params.nonSignerPubkeys[j].negate());
+        if (params.nonSignerPubkeys.length > 0) {
+            for (uint256 j = 0; j < params.nonSignerPubkeys.length; j++) {
+                nonSignersPubkeyHashes[j] = params.nonSignerPubkeys[j].hashG1Point();
+                signerApk = currentApk.plus(params.nonSignerPubkeys[j].negate());
+            }
+        } else {
+            signerApk = currentApk;
         }
-
         (bool pairingSuccessful, bool signatureIsValid) = trySignatureAndApkVerification(msgHash, signerApk,  params.apkG2, params.sigma);
         require(pairingSuccessful, "BLSSignatureChecker.checkSignatures: pairing precompile call failed");
         require(signatureIsValid, "BLSSignatureChecker.checkSignatures: signature is invalid");
