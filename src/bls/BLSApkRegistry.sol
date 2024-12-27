@@ -132,6 +132,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         BN254.G1Point memory signerApk = BN254.G1Point(0, 0);
         bytes32[] memory nonSignersPubkeyHashes;
         if (params.nonSignerPubkeys.length > 0) {
+            nonSignersPubkeyHashes = new bytes32[](params.nonSignerPubkeys.length);
             for (uint256 j = 0; j < params.nonSignerPubkeys.length; j++) {
                 nonSignersPubkeyHashes[j] = params.nonSignerPubkeys[j].hashG1Point();
                 signerApk = currentApk.plus(params.nonSignerPubkeys[j].negate());
