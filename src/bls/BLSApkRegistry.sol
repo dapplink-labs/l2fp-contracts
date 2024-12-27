@@ -11,7 +11,7 @@ import "../interfaces/IBLSApkRegistry.sol";
 
 import "./BLSApkRegistryStorage.sol";
 
-import { console } from "forge-std/Script.sol";
+import "forge-std/Script.sol";
 
 
 
