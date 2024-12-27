@@ -21,9 +21,15 @@ parent:
 
 ## 1.Finality Provider Contracts for layer2
 
-l2fp-contracts is a collection of contracts for managing nodes and verifying BLS signatures in an L2 fast finality network. It receives aggregated signature verifications from Finality Providers in the Babylon and Symbiotic networks to ensure the finality of the network.
+l2fp-contracts is a suite of contracts designed for managing nodes and verifying BLS signatures within a Layer 2 fast finality network. It aggregates signature verifications from Finality Providers in the Babylon and Symbiotic networks to ensure the network's finality.
 
 ## 2.Usage
+
+### Install Dependencies
+
+```shell
+$ forge install
+```
 
 ### Build
 

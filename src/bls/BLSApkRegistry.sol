@@ -11,11 +11,9 @@ import "../interfaces/IBLSApkRegistry.sol";
 
 import "./BLSApkRegistryStorage.sol";
 
-import "forge-std/Script.sol";
 
 
-
-contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage, EIP712{
+contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, BLSApkRegistryStorage, EIP712 {
     using BN254 for BN254.G1Point;
 
     uint256 internal constant PAIRING_EQUALITY_CHECK_GAS = 120000;
@@ -134,6 +132,7 @@ contract BLSApkRegistry is Initializable, OwnableUpgradeable, IBLSApkRegistry, B
         BN254.G1Point memory signerApk = BN254.G1Point(0, 0);
         bytes32[] memory nonSignersPubkeyHashes;
         if (params.nonSignerPubkeys.length > 0) {
+            nonSignersPubkeyHashes = new bytes32[](params.nonSignerPubkeys.length);
             for (uint256 j = 0; j < params.nonSignerPubkeys.length; j++) {
                 nonSignersPubkeyHashes[j] = params.nonSignerPubkeys[j].hashG1Point();
                 signerApk = currentApk.plus(params.nonSignerPubkeys[j].negate());
