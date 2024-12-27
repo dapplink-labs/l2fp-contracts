@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
 
-import "forge-std/Script.sol";
 import "forge-std/Vm.sol";
 import "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
-import { EmptyContract } from "../src/utils/EmptyContract.sol";
-import { BLSApkRegistry } from "../src/bls/BLSApkRegistry.sol";
-import { FinalityRelayerManager } from "../src/core/FinalityRelayerManager.sol";
-
+import {EmptyContract} from "../src/utils/EmptyContract.sol";
+import {BLSApkRegistry} from "../src/bls/BLSApkRegistry.sol";
+import {FinalityRelayerManager} from "../src/core/FinalityRelayerManager.sol";
+import {console, Script} from "forge-std/Script.sol";
 
 contract deployFinalityRelayerScript is Script {
     EmptyContract public emptyContract;
